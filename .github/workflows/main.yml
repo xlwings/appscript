@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest]
-        python-version: [3.5, 3.6, 3.7, 3.8]
+        python-version: [3.7, 3.8]
         architecture: ['x64']
     steps:
       - uses: actions/checkout@v1
@@ -39,10 +39,16 @@ jobs:
         with:
           name: dist
           path: py-appscript/trunk/dist
-      - name: Publish package
+      - name: Publish wheels
         if: github.event_name == 'release'
-        run: twine upload py-appscript/trunk/dist/*
+        run: twine upload py-appscript/trunk/dist/*.whl
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.pypi_password }}
-#          repository_url: https://test.pypi.org/legacy/
+      - name: Publish source package
+        # Only upload the source tar.gz one time
+        if: ${{ github.event_name == 'release' && matrix.python-version == '3.6' }}
+        run: twine upload py-appscript/trunk/dist/*.tar.gz
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.pypi_password }}
