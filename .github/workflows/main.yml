@@ -59,7 +59,7 @@ jobs:
         with:
           name: dist
       - name: Publish wheels
-        run: twine upload dist/*
+        run: twine upload dist/*.whl
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.pypi_password }}
