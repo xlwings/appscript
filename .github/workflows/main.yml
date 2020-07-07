@@ -1,8 +1,8 @@
 name: Build Pipeline
 
 on:
-  Uncomment to run on all pushed commits and upload an artifact
-  Prevents duplicated pipeline runs as a release also pushes a tag
+  # Run on all pushed commits and when a new release is created
+  # Prevents duplicated pipeline runs as a release also pushes a tag
   push:
     branches:
       - '**'
